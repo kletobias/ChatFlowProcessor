@@ -102,20 +102,28 @@ def get_conversation_messages(conversation: Dict) -> List[Dict[str, str]]:
 
         author_info = message.get("author", {})
         author_role = author_info.get("role")
-        if not author_info or author_role not in {"assistant", "user"} or author_info.get("name") == "browser":
+        if (
+            not author_info
+            or author_role not in {"assistant", "user"}
+            or author_info.get("name") == "browser"
+        ):
             current_node = node.get("parent")
             continue
 
         author = "ChatGPT" if author_role == "assistant" else "User"
 
         if content.get("content_type") in {"text", "code"}:
-            text = content.get("parts")[0] if content.get("parts") else content.get("text", "")
+            text = (
+                content.get("parts")[0]
+                if content.get("parts")
+                else content.get("text", "")
+            )
         else:
             text = content.get("text", "")
 
         # Filter messages that contain string 'mclick', as they are part of the logging when GPT uses the browser.
         if text and author == "ChatGPT":
-            if 'mclick([' not in text and not text.endswith(')]'):
+            if "mclick([" not in text and not text.endswith(")]"):
                 messages.append({"author": author, "text": text})
         elif text and author == "User":
             messages.append({"author": author, "text": text})
@@ -148,6 +156,14 @@ def get_unique_filename(path: Path) -> Path:
 
 
 def write_text_file(text_file: Path, content: str, append: bool = True) -> None:
+    """
+    Writes content to a text file.
+
+    Args:
+        text_file (Path): The path of the text file.
+        content (str): The content to be written.
+        append (bool): If True, appends the content to the file. Default is True.
+    """
     mode = "a" if append else "w"
     with open(text_file, mode, encoding="utf-8") as f:
         f.write(content)
@@ -220,6 +236,13 @@ def main(
     zip_file_path: str,
     verbose: bool = False,
 ) -> None:
+    """
+    Main function to process conversations from a zip file.
+
+    Args:
+        zip_file_path (str): Path to the downloaded zip file.
+        verbose (bool): Enables verbose output if True. Default is False.
+    """
 
     zip_file_path = validate_and_get_absolute_zip_path(zip_file_path)
     unzip_file(Path(zip_file_path), verbose)
