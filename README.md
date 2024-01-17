@@ -1,28 +1,28 @@
 # ChatFlowProcessor
 
-Efficiently transform your OpenAI chat transcripts, exported as a zip file, into well-structured markdown files, each representing an individual chat session, using a local processing approach.
+Efficiently transform your OpenAI chat transcripts, exported as a zip file, into well-structured markdown files. Each file represents an individual chat session, processed locally for convenience and efficiency.
 
 ## Features
 
-- Can be used as Command line tool or standalone python script.
-- Unzips the downloaded OpenAI user data, and processes `conversations.json` file.
-- Splits by chat
+- **Command Line Tool**: Easily used as a command line tool for quick processing.
+- **Local Processing**: Unzips the downloaded OpenAI user data and processes the `conversations.json` file on your machine.
+- **Session Splitting**: Splits the data by individual chat sessions for organized documentation.
 
-### Directory structure
+## Directory Structure
 
-1. The script takes as required input the file path to the .zip file.
-2. It will create a new child directory of the directory the zip file is in named `unzipped_data`
-3. The unzipped data is extracted in `unzipped_data`.
-4. Inside `unzipped_data` directory `chat-export-by-conversation` is created.
-5. Each chat is saved as a Markdown file inside `chat-export-by-conversation` ensuring unique filenames.
+- The [script](script/chatflowprocessor.py) requires the path to the .zip file as input.
+- It creates a `unzipped_data` directory within the zip file's parent directory.
+- Extracts the zip contents into `unzipped_data`.
+- Inside `unzipped_data`, a `chat-export-by-conversation` directory is created.
+- Each chat is saved as a Markdown file inside `chat-export-by-conversation`.
 
 ```css
 | Line | Code |
 | ---- | ---- |
 | 1    | .    |
-| 2    | ├── c4158bd210b5ede180fb368313c2377cc4f3fa2c07c08b3be367fbd43f2cd5b1-2024-01-05-15-11-33.zip |
+| 2    | ├── your_chat_data.zip |
 | 3    | └── unzipped_data |
-| 4    |     ├── chat-export-by-conversation  [1227 entries exceeds filelimit, not opening dir] |
+| 4    |     ├── chat-export-by-conversation  [1337 entries exceeds filelimit, not opening dir] |
 | 5    |     ├── chat.html |
 | 6    |     ├── conversations.json |
 | 7    |     ├── message_feedback.json |
@@ -30,26 +30,24 @@ Efficiently transform your OpenAI chat transcripts, exported as a zip file, into
 | 9    |     ├── shared_conversations.json |
 | 10   |     └── user.json |
 ```
-### Export to Markdown Files
-- Each `.md` file in directory `chat-export-by-conversation` contains all messages of one chat.
-- Filenames generally follow the pattern `chat-{title_file}.md`
-    - `title_file` is the `title` sanitized.
-- Unique filenames for markdown files are generated in case the filename already exists to prevent overwriting.
-- The structure for each file is the following:
-    - First line of the file: H1 heading with the value of node `title`.
-    - Each H2 heading titled `## User:`, or `## ChatGPT:` is followed by one message from either the user or ChatGPT respectively reconstructing the flow in the original chat from the browser UI.
-    - For more details on the rendering of user messages see section [Rendering of User Messages](#rendering-of-user-messages)
+
+## Markdown File Structure
+
+- Each `.md` file in `chat-export-by-conversation` contains all messages from one chat session.
+- Filenames follow the pattern `chat-{title_file}.md`, where `title_file` is a sanitized version of the `title`.
+- Generates unique filenames to prevent overwriting.
+- File Structure:
+    - The first line: H1 heading with the chat `title`.
+    - Messages are under H2 headings titled `## User:` or `## ChatGPT:`, reconstructing the original chat flow.
 
 ## Getting Started
 
 ### Prerequisites
 
 - Python 3.x
-- Required Python packages: `pathlib`, `json`, `re`
+- Required packages: `pathlib`, `json`, `re`
 
 ### Installation
-
-Clone the repository to your local machine:
 
 ```bash
 git clone https://github.com/yourusername/ChatFlowProcessor.git
@@ -58,42 +56,43 @@ cd ChatFlowProcessor
 
 ### Usage
 
-Run the main script and provide necessary arguments:
+As a command line script, the required argument is `--zip_file_path` which is the file path to the downloaded OpenAI chat data. See [Directory Structure](#directory-structure).
 
 ```bash
-python chatflowprocessor.py --zip-file-path "/path/to/zip_file"
+python chatflowprocessor.py --zip_file_path "/path/to/zip_file"
 ```
 
-## Functions
+Optional command line argument `--verbose` can be passed to the script, to make the output more verbose.
 
-- `unzip_file(zip_file_path, verbose)`: Unzips the provided zip file.
-- `process_conversation(conversation, out_dir, verbose)`: Processes individual conversations and saves them in markdown format.
+```bash
+python chatflowprocessor.py --zip_file_path "/path/to/zip_file" --verbose
+```
 
+## Examples
+
+You find a sample chat conversation in `.json`, `.md`, and as a rendered image in [examples](/examples)
 
 ## Rendering of User Messages
 
 ### Overview
-The markdown files exported from OpenAI Chat contain user messages formatted distinctly for clarity and structured navigation. This section provides an in-depth explanation of how user messages are rendered in markdown format in these exports.
+
+- **Distinct Formatting**: User messages in the markdown files are formatted distinctly for clarity.
+- **Markdown Compliance**: Messages retain original Markdown formatting.
 
 ### Formatting Details
-- **Heading Identification:** Each user message in the conversation starts with an H2 heading, denoted as `## User:` in the markdown file. This format aids in differentiating user messages from other parts of the conversation.
 
-- **Markdown Compliance:** The correct rendering of user messages in markdown depends on whether the original message adhered to standard Markdown syntax. This means that lists, links, code blocks, emphasis, and other Markdown elements will render as intended if they were used correctly in the user's message.
+- **Headings**: User messages start with an H2 heading (`## User:`).
+- **Markdown Elements**: Lists, links, code blocks, emphasis, etc., are preserved.
+- **Non-Code Block Syntax**: Markdown elements outside code blocks render as intended.
 
-- **Non-Code Block Markdown Syntax:** Crucially, any Markdown syntax in the user's message that is not enclosed within a Markdown code block (initiated with ```` ```md ````) will be rendered as per its markdown nature in the exported file. This implies that:
-  - Additional headings (e.g., `#`, `##`, `###`) will be rendered as headings.
-  - Bullet points and numbered lists will appear as lists.
-  - Hyperlinks (`[text](URL)`) will be clickable links.
-  - Text enclosed in asterisks (`*text*` or `**text**`) will be italicized or bolded, respectively.
+### Developer Implications
 
-### Implications for Developers
-- **Awareness of Rendering Behavior:** When using these exports in documentation or repositories, developers should note that the accuracy of rendering is linked to both the user's use of Markdown syntax and the placement of Markdown elements inside or outside of code blocks. Non-compliant or incorrectly placed elements might render unexpectedly.
-  
-- **Enhanced Documentation Potential:** Understanding this rendering behavior can be advantageous in cases where conversations are being used for documentation, training, or examples in public repositories, especially for illustrating Markdown usage or formatting examples.
+- **Rendering Behavior**: Be aware of how Markdown syntax affects rendering.
+- **Documentation Use**: Useful for documentation or training where formatting is key.
 
 ## Contributing
 
-Contributions to ChatFlowProcessor are welcome! Feel free to open issues or submit pull requests.
+Contributions are welcome. Feel free to open issues or submit pull requests.
 
 ## License
 
@@ -101,9 +100,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contact
 
-Your Name - your.email@example.com
+Tobias Klein - progress (dot) unveiled (at) gmail (dot) com 
+Website: [www.deep-learning-master.com](https://deep-learning-master.com)
 
-Project Link: https://github.com/yourusername/ChatFlowProcessor
-```
 
-Remember to replace placeholders like `yourusername`, `Your Name`, and `your.email@example.com` with your actual GitHub username, name, and contact email. You may also want to adjust the sections to better reflect the specifics of your project, such as detailed usage instructions, configuration options, or additional functionalities.
+Project Link: https://github.com/kletobias/ChatFlowProcessor
