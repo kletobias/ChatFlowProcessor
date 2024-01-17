@@ -1,3 +1,22 @@
+## Table of Contents
+- [ChatFlowProcessor](#chatflowprocessor)
+- [Features](#features)
+- [Directory Structure](#directory-structure)
+- [Markdown File Structure](#markdown-file-structure)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Usage](#usage)
+- [Examples](#examples)
+- [Rendering of User Messages](#rendering-of-user-messages)
+  - [Overview](#overview)
+  - [Formatting Details](#formatting-details)
+  - [Developer Implications](#developer-implications)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
+
+
 # ChatFlowProcessor
 
 Efficiently transform your OpenAI chat transcripts, exported as a zip file, into well-structured markdown files. Each file represents an individual chat session, processed locally for convenience and efficiency.
