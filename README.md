@@ -58,15 +58,19 @@ cd ChatFlowProcessor
 
 As a command line script, the required argument is `--zip_file_path` which is the file path to the downloaded OpenAI chat data. See [Directory Structure](#directory-structure).
 
+
 ```bash
 python chatflowprocessor.py --zip_file_path "/path/to/zip_file"
 ```
 
+
 Optional command line argument `--verbose` can be passed to the script, to make the output more verbose.
+
 
 ```bash
 python chatflowprocessor.py --zip_file_path "/path/to/zip_file" --verbose
 ```
+
 
 ## Examples
 
@@ -96,12 +100,10 @@ Contributions are welcome. Feel free to open issues or submit pull requests.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [MIT LICENSE](LICENSE) file for details.
 
 ## Contact
 
 Tobias Klein - progress (dot) unveiled (at) gmail (dot) com 
 Website: [www.deep-learning-master.com](https://deep-learning-master.com)
-
-
 Project Link: https://github.com/kletobias/ChatFlowProcessor
