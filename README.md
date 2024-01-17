@@ -8,9 +8,13 @@ Efficiently transform your OpenAI chat transcripts, exported as a zip file, into
 - Unzips the downloaded OpenAI user data, and processes `conversations.json` file.
 - Splits by chat
 
-### Input
+### Directory structure
 
-
+1. The script takes as required input the file path to the .zip file.
+2. It will create a new child directory of the directory the zip file is in named `unzipped_data`
+3. The unzipped data is extracted in `unzipped_data`.
+4. Inside `unzipped_data` directory `chat-export-by-conversation` is created.
+5. Each chat is saved as a Markdown file inside `chat-export-by-conversation` ensuring unique filenames.
 
 ```css
 | Line | Code |
@@ -26,14 +30,11 @@ Efficiently transform your OpenAI chat transcripts, exported as a zip file, into
 | 9    |     ├── shared_conversations.json |
 | 10   |     └── user.json |
 ```
-
-### Processing of `conversations.json`
-- TODO: add details of how the file is split into chats
-
 ### Export to Markdown Files
 - Each `.md` file in directory `chat-export-by-conversation` contains all messages of one chat.
-- Filenames generally follow the pattern `chat-{title_file}.md`, see [Construction of Filenames](line 198) in script defined TODO: make less specific and more.
-- Unique filenames for markdown files are generated in case of the filename already existing, to prevent overwriting.
+- Filenames generally follow the pattern `chat-{title_file}.md`
+    - `title_file` is the `title` sanitized.
+- Unique filenames for markdown files are generated in case the filename already exists to prevent overwriting.
 - The structure for each file is the following:
     - First line of the file: H1 heading with the value of node `title`.
     - Each H2 heading titled `## User:`, or `## ChatGPT:` is followed by one message from either the user or ChatGPT respectively reconstructing the flow in the original chat from the browser UI.
