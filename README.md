@@ -96,8 +96,9 @@ python chatflowprocessor.py --zip_file_path "/path/to/zip_file" --verbose
 
 ## Examples
 
+The following example demonstrates the transcription from `.json` to `.md` for a sample message from 'ChatGPT' taken from a chat conversation.
+
 ### Input: Sample Message
-Go from this `content`:
 
 ```json
 {
