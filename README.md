@@ -29,6 +29,7 @@ Efficiently transform your OpenAI chat transcripts, exported as a zip file, into
 - **Command Line Tool**: Easily used as a command line tool for quick processing.
 - **Local Processing**: Unzips the downloaded OpenAI user data and processes the `conversations.json` file on your machine.
 - **Session Splitting**: Splits the data by individual chat sessions for organized documentation.
+- **Detailed Doc Strings and Type Hinting**: Each function in the [script](script/chatflowprocessor.py) is meticulously documented with detailed docstrings and precise type hinting.
 
 ## Directory Structure
 
@@ -38,7 +39,7 @@ Efficiently transform your OpenAI chat transcripts, exported as a zip file, into
 - Inside `unzipped_data`, a `chat-export-by-conversation` directory is created.
 - Each chat is saved as a Markdown file inside `chat-export-by-conversation`.
 
-```css
+```text
 | Line | Code |
 | ---- | ---- |
 | 1    | .    |
@@ -67,12 +68,12 @@ Efficiently transform your OpenAI chat transcripts, exported as a zip file, into
 ### Prerequisites
 
 - Python 3.x
-- Required packages: `pathlib`, `json`, `re`
+- Required third party package: `slugify`
 
 ### Installation
 
 ```bash
-git clone https://github.com/yourusername/ChatFlowProcessor.git
+git clone https://github.com/kletobias/ChatFlowProcessor.git
 cd ChatFlowProcessor
 ```
 
@@ -113,6 +114,10 @@ The following example demonstrates the transcription from `.json` to `.md` for a
 
 ### Output: Markdown from Sample Message
 
+---
+
+#### Begin Preview
+
 To showcase a Python code block featuring the walrus operator (`:=`), formatted in the Black code style for a Markdown environment, we can create a small, readable example. The walrus operator is useful for assignments within expressions, allowing for a more concise code. Here, I'll create a snippet that uses this operator in a loop to process a list of numbers. The code will be designed to adhere to the Black formatter's style, focusing on readability and consistency. The example will be within 10 lines, making it suitable for a Markdown code block showcase.
 
 ```python
@@ -129,6 +134,10 @@ print(process_numbers(numbers))
 ```
 
 This code demonstrates the use of the walrus operator in a loop, checking if the square of a number is greater than 20, and if so, appending it to the `result` list. The function `process_numbers` takes a list of integers and returns a new list with the squared values that meet the condition. This example is formatted according to Black's style guidelines, ensuring it is visually appealing for a Markdown code block.
+
+#### End Preview
+
+---
 
 ### Full Chat Conversation Example
 You find a sample chat conversation in `.json`, `.md`, and as a rendered image in [examples](/examples)
