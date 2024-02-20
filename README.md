@@ -171,5 +171,5 @@ This project is licensed under the MIT License - see the [MIT LICENSE](LICENSE) 
 ## Contact
 
 Tobias Klein - progress (dot) unveiled (at) gmail (dot) com 
-Website: [www.deep-learning-master.com](https://deep-learning-master.com)
+Website: [www.deep-learning-mastery.com](https://deep-learning-mastery.com)
 Project Link: https://github.com/kletobias/ChatFlowProcessor
